@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteEdit++ — Fast Native Code & Text Editor for macOS</title>
+    <meta name="description" content="The legendary Notepad++ experience, reborn natively for macOS. Built with Swift 6 for Apple Silicon. 90+ languages, smart indent, and 100% sandboxed privacy.">
+    <link rel="icon" type="image/png" href="images/AppIcon.png">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 31, 48, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent: #0a84ff;
+            --accent-glow: rgba(10, 132, 255, 0.35);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(11, 15, 25, 0.8);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 24px;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .brand img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-main);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding: 100px 24px 60px;
+            text-align: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 300px;
+            background: radial-gradient(ellipse, var(--accent-glow) 0%, transparent 70%);
+            filter: blur(80px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .app-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: rgba(10, 132, 255, 0.15);
+            border: 1px solid rgba(10, 132, 255, 0.3);
+            color: #60a5fa;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            letter-spacing: 0.5px;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4.2rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            background: linear-gradient(180deg, #ffffff 40%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 760px;
+            margin: 0 auto 36px;
+        }
+
+        .cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--accent);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 18px rgba(10, 132, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: #0071e3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(10, 132, 255, 0.6);
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.14);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Image Showcase */
+        .showcase-wrapper {
+            max-width: 1200px;
+            margin: 0 auto 100px;
+            padding: 0 24px;
+        }
+
+        .showcase-window {
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.15);
+            background: #111827;
+        }
+
+        .showcase-window img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Features Grid */
+        .features {
+            max-width: 1200px;
+            margin: 0 auto 100px;
+            padding: 0 24px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .section-title p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        /* Gallery Carousel / Grid */
+        .gallery {
+            max-width: 1200px;
+            margin: 0 auto 100px;
+            padding: 0 24px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 24px;
+        }
+
+        .gallery-item {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+            background: #1e293b;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.02);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 40px 24px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            background: rgba(11, 15, 25, 0.95);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-main);
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="brand">
+                <img src="images/AppIcon.png" alt="NoteEdit++ Icon">
+                <span>NoteEdit++</span>
+            </a>
+            <nav>
+                <a href="index.html" class="active">Overview</a>
+                <a href="#features">Features</a>
+                <a href="support.html">Support</a>
+                <a href="privacy.html">Privacy</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="app-badge">MAC APP STORE • NATIVE SWIFT 6</div>
+        <h1>The Notepad++ Experience,<br>Reborn for macOS.</h1>
+        <p class="hero-desc">
+            Engineered exclusively for Apple Silicon with pure Swift 6 and AppKit. Instant startup, sub-millisecond typing latency, 90+ programming languages, and 100% sandboxed privacy.
+        </p>
+
+        <div class="cta-group">
+            <a href="#" class="btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.62-.75 1.04-1.8 0.92-2.85-.9.04-1.99.6-2.64 1.35-.57.65-1.07 1.71-.93 2.73 1 .08 2.03-.48 2.65-1.23z"/></svg>
+                Download on Mac App Store
+            </a>
+            <a href="support.html" class="btn-secondary">User Guide & Support</a>
+        </div>
+    </section>
+
+    <!-- Main Window Showcase -->
+    <div class="showcase-wrapper">
+        <div class="showcase-window">
+            <img src="images/1_overview_lightning_fast.png" alt="NoteEdit++ Interface Showcase">
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-title">
+            <h2>Crafted for Peak Productivity</h2>
+            <p>Every feature you need for rapid coding, note-taking, and file manipulation.</p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h3>Swift 6 Native Speed</h3>
+                <p>Pure Apple Silicon architecture. Launches in under 0.1s, consumes negligible battery, and handles gigantic text buffers effortlessly without web wrappers.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🎨</div>
+                <h3>90+ Syntax Languages</h3>
+                <p>Rich, colorful syntax highlighting for Swift, Python, C/C++, Rust, Go, JavaScript, TypeScript, HTML, CSS, JSON, XML, Shell, SQL, Markdown, and 80+ more.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">↵</div>
+                <h3>Smart Auto-Indentation</h3>
+                <p>Preserves line indentation, automatically expands curly braces `{ }` on Enter, highlights matching brackets, and provides real-time word completions.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">◫</div>
+                <h3>Dual View Split Editing</h3>
+                <p>View and edit two documents side-by-side with split views. Compare file differences with visual line highlights, and explore folders in the sidebar.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🛠</div>
+                <h3>Built-in Developer Tools</h3>
+                <p>Format and minify JSON/XML, encode/decode Base64 and URLs, generate SHA-256 and MD5 cryptographic hashes, and perform advanced case conversions.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔒</div>
+                <h3>100% Apple Sandbox Privacy</h3>
+                <p>NoteEdit++ operates strictly within the macOS App Sandbox. Zero telemetry, zero analytics, and zero network calls. Your files never leave your computer.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshot Gallery -->
+    <section class="gallery">
+        <div class="section-title">
+            <h2>Visual Tour</h2>
+            <p>Explore the intuitive design and rich developer workflows of NoteEdit++.</p>
+        </div>
+
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="images/2_syntax_and_smart_indent.png" alt="Syntax Highlighting and Multi-Tabs">
+            </div>
+            <div class="gallery-item">
+                <img src="images/3_find_and_replace_regex.png" alt="Advanced Search and Replace">
+            </div>
+            <div class="gallery-item">
+                <img src="images/4_developer_tools_built_in.png" alt="Developer Tools and About Window">
+            </div>
+            <div class="gallery-item">
+                <img src="images/5_apple_sandbox_and_privacy.png" alt="Apple Sandbox Privacy and Documentation">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="support.html">Support</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="https://github.com" target="_blank">GitHub</a>
+        </div>
+        <p>Developed with passion by <strong>Varga Márk</strong>.</p>
+        <p style="margin-top: 6px; font-size: 0.8rem; color: #64748b;">Copyright © 2026 Varga Márk. All rights reserved. Apple, Mac, and macOS are trademarks of Apple Inc.</p>
+    </footer>
+
+</body>
+</html>

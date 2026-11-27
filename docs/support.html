@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteEdit++ — Help & Customer Support</title>
+    <meta name="description" content="Official customer support, FAQ, and technical documentation for NoteEdit++ for macOS by Varga Márk.">
+    <link rel="icon" type="image/png" href="images/AppIcon.png">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(22, 31, 48, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent: #0a84ff;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(11, 15, 25, 0.8);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 24px;
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .brand img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 24px;
+            transition: color 0.2s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-main);
+        }
+
+        .content {
+            max-width: 900px;
+            margin: 60px auto 100px;
+            padding: 0 24px;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .lead {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .contact-box {
+            background: linear-gradient(135deg, rgba(10, 132, 255, 0.15), rgba(22, 31, 48, 0.8));
+            border: 1px solid rgba(10, 132, 255, 0.3);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 50px;
+        }
+
+        .contact-box h2 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: #60a5fa;
+        }
+
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 18px;
+        }
+
+        .faq-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .faq-item p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+
+        th, td {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        td {
+            color: var(--text-muted);
+        }
+
+        kbd {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #fff;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 40px 24px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin: 0 12px;
+        }
+
+        footer a:hover {
+            color: var(--text-main);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="brand">
+                <img src="images/AppIcon.png" alt="NoteEdit++ Icon">
+                <span>NoteEdit++</span>
+            </a>
+            <nav>
+                <a href="index.html">Overview</a>
+                <a href="support.html" class="active">Support</a>
+                <a href="privacy.html">Privacy</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content">
+        <h1>NoteEdit++ Support & FAQ</h1>
+        <p class="lead">Need help with NoteEdit++? We're here to assist you.</p>
+
+        <div class="contact-box">
+            <h2>Contact Technical Support</h2>
+            <p>If you experience any issues, have feature requests, or need assistance, please feel free to reach out:</p>
+            <p style="margin-top: 12px;"><strong>Developer:</strong> Varga Márk</p>
+            <p><strong>Email:</strong> <a href="mailto:support@vargamark.com" style="color: #60a5fa; text-decoration: none;">support@vargamark.com</a></p>
+            <p><strong>Response time:</strong> Typically within 24 hours.</p>
+        </div>
+
+        <h2 style="margin-bottom: 24px; font-size: 1.8rem;">Frequently Asked Questions</h2>
+
+        <div class="faq-item">
+            <h3>How do I open files from Finder or the Dock?</h3>
+            <p>You can drag any file onto the NoteEdit++ Dock icon, right-click any text or source code file in Finder and select <em>Open With &rarr; NoteEdit++</em>, or use the standard <kbd>⌘O</kbd> shortcut within the app.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>How does file saving work in the macOS App Sandbox?</h3>
+            <p>NoteEdit++ is 100% sandboxed according to Apple security guidelines. When you open or save a file via the native Open/Save dialog, macOS securely grants NoteEdit++ permission to access that specific file. Your session and open tabs are preserved automatically.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>How do I format JSON or XML?</h3>
+            <p>Simply open your document, navigate to the <strong>Tools</strong> menu in the menu bar, and click <strong>Format JSON</strong> or <strong>Format XML</strong>. NoteEdit++ will validate and beautifully indent your markup in real time.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>How do I split tabs into Dual View?</h3>
+            <p>Press <kbd>⌥⌘D</kbd> or right-click any document tab and select <strong>Dual View</strong>. This enables side-by-side editing so you can cross-reference multiple files simultaneously.</p>
+        </div>
+
+        <h2 style="margin: 40px 0 20px; font-size: 1.8rem;">Essential Keyboard Shortcuts</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Shortcut</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>New File</td><td><kbd>⌘N</kbd></td></tr>
+                <tr><td>Open File...</td><td><kbd>⌘O</kbd></td></tr>
+                <tr><td>Save / Save As</td><td><kbd>⌘S</kbd> / <kbd>⇧⌘S</kbd></td></tr>
+                <tr><td>Print Document</td><td><kbd>⌘P</kbd></td></tr>
+                <tr><td>Close Tab / Close All</td><td><kbd>⌘W</kbd> / <kbd>⇧⌘W</kbd></td></tr>
+                <tr><td>Find and Replace</td><td><kbd>⌘F</kbd></td></tr>
+                <tr><td>Find Next / Previous</td><td><kbd>⌘G</kbd> / <kbd>⇧⌘G</kbd></td></tr>
+                <tr><td>Duplicate Line</td><td><kbd>⌘D</kbd></td></tr>
+                <tr><td>Delete Line</td><td><kbd>⇧⌘K</kbd></td></tr>
+                <tr><td>Move Line Up / Down</td><td><kbd>⌥↑</kbd> / <kbd>⌥↓</kbd></td></tr>
+                <tr><td>Toggle Bookmark</td><td><kbd>⌘M</kbd></td></tr>
+                <tr><td>Toggle Dual View</td><td><kbd>⌥⌘D</kbd></td></tr>
+                <tr><td>Toggle Workspace Sidebar</td><td><kbd>⌥⌘B</kbd></td></tr>
+                <tr><td>NoteEdit++ Help</td><td><kbd>⌘?</kbd></td></tr>
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <div style="margin-bottom: 12px;">
+            <a href="index.html">Home</a>
+            <a href="support.html">Support</a>
+            <a href="privacy.html">Privacy Policy</a>
+        </div>
+        <p>Copyright © 2026 Varga Márk. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
